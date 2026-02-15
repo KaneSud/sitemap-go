@@ -5,6 +5,48 @@ import (
 	"time"
 )
 
+type SitemapIndex struct {
+	XMLName  xml.Name       `xml:"sitemapindex"`
+	xmlns    string         `xml:"xmlns,attr"`
+	Sitemaps []SitemapEntry `xml:"sitemap"`
+}
+
+type SitemapEntry struct {
+	Loc     string     `xml:"loc"`
+	LastMod *time.Time `xml:"lastmod,omitempty"`
+}
+
+func MakeSitemapIndex(entries []SitemapEntry) SitemapIndex {
+	return SitemapIndex{
+		xmlns:    "http://www.sitemaps.org/schemas/sitemap/0.9",
+		Sitemaps: entries,
+	}
+}
+
+func (si *SitemapIndex) Add(loc string, lastMod time.Time) {
+	si.Sitemaps = append(si.Sitemaps, SitemapEntry{
+		Loc:     loc,
+		LastMod: &lastMod,
+	})
+}
+
+func (si *SitemapIndex) GenerateXML() (string, error) {
+	output, err := xml.MarshalIndent(si, "", "  ")
+	if err != nil {
+		return "", err
+	}
+	return xml.Header + string(output), nil
+}
+
+func ParseXMLSitemapIndex(content string) (SitemapIndex, error) {
+	var out SitemapIndex
+	err := xml.Unmarshal([]byte(content), &out)
+	if err != nil {
+		return out, err
+	}
+	return out, nil
+}
+
 type URLSet struct {
 	XMLName xml.Name `xml:"urlset"`
 	XMLNS   string   `xml:"xmlns,attr"`
@@ -22,7 +64,7 @@ func (u *URLSet) GenerateXML() (string, error) {
 	return xml.Header + string(output), nil
 }
 
-func ParseXML(content string) (URLSet, error) {
+func ParseXMLUrlSet(content string) (URLSet, error) {
 	var out URLSet
 	err := xml.Unmarshal([]byte(content), &out)
 	if err != nil {
