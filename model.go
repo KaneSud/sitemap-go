@@ -56,6 +56,13 @@ type URLSet struct {
 	URLs    []*URL   `xml:"url"`
 }
 
+func MakeUrlSet() URLSet {
+	return URLSet{
+		XMLNS: "http://www.sitemaps.org/schemas/sitemap/0.9",
+		XHTML: "http://www.w3.org/1999/xhtml",
+	}
+}
+
 func (u *URLSet) GenerateXML() (string, error) {
 	output, err := xml.MarshalIndent(u, "", "  ")
 	if err != nil {
