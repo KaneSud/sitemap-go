@@ -50,9 +50,9 @@ func ParseXMLSitemapIndex(content string) (SitemapIndex, error) {
 type URLSet struct {
 	XMLName xml.Name `xml:"urlset"`
 	XMLNS   string   `xml:"xmlns,attr"`
-	XHTML   string   `xml:"xmlns:xhtml,attr,omitempty"`
-	Image   string   `xml:"xmlns:image,attr,omitempty"`
-	Video   string   `xml:"xmlns:video,attr,omitempty"`
+	XHTML   string   `xml:"xhtml,attr,omitempty"`
+	Image   string   `xml:"image,attr,omitempty"`
+	Video   string   `xml:"video,attr,omitempty"`
 	URLs    []*URL   `xml:"url"`
 }
 
@@ -89,9 +89,9 @@ type URL struct {
 	LastMod    *time.Time  `xml:"lastmod,omitempty"`
 	ChangeFreq ChangeFreq  `xml:"changefreq,omitempty"`
 	Priority   *float64    `xml:"priority,omitempty"`
-	Images     []Image     `xml:"image:image,omitempty"`
-	Videos     []Video     `xml:"video:video,omitempty"`
-	Alternate  []Alternate `xml:"xhtml:link,omitempty"`
+	Images     []Image     `xml:"image,omitempty"`
+	Videos     []Video     `xml:"video,omitempty"`
+	Alternate  []Alternate `xml:"link,omitempty"`
 }
 
 type UrlOption func(*URL)
@@ -142,20 +142,20 @@ func MakeUrl(loc string, options ...UrlOption) *URL {
 }
 
 type Image struct {
-	Loc     string `xml:"image:loc"`
-	Caption string `xml:"image:caption,omitempty"`
-	Title   string `xml:"image:title,omitempty"`
+	Loc     string `xml:"loc"`
+	Caption string `xml:"caption,omitempty"`
+	Title   string `xml:"title,omitempty"`
 }
 
 type Video struct {
-	Loc          string   `xml:"video:loc"`
-	ThumbnailLoc string   `xml:"video:thumbnail_loc"`
-	Title        string   `xml:"video:title"`
-	Description  string   `xml:"video:description"`
-	ContentLoc   string   `xml:"video:content_loc,omitempty"`
-	Duration     int      `xml:"video:duration,omitempty"`
-	Category     string   `xml:"video:category,omitempty"`
-	Tags         []string `xml:"video:tag,omitempty"`
+	Loc          string   `xml:"loc"`
+	ThumbnailLoc string   `xml:"thumbnail_loc"`
+	Title        string   `xml:"title"`
+	Description  string   `xml:"description"`
+	ContentLoc   string   `xml:"content_loc,omitempty"`
+	Duration     int      `xml:"duration,omitempty"`
+	Category     string   `xml:"category,omitempty"`
+	Tags         []string `xml:"tag,omitempty"`
 }
 
 type Alternate struct {
