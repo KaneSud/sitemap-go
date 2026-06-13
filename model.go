@@ -6,7 +6,7 @@ import (
 )
 
 type SitemapIndex struct {
-	XMLName  xml.Name       `xml:"sitemapindex"`
+	XMLName  string         `xml:"sitemapindex"`
 	xmlns    string         `xml:"xmlns,attr"`
 	Sitemaps []SitemapEntry `xml:"sitemap"`
 }
@@ -19,6 +19,7 @@ type SitemapEntry struct {
 func MakeSitemapIndex(entries []SitemapEntry) SitemapIndex {
 	return SitemapIndex{
 		xmlns:    "http://www.sitemaps.org/schemas/sitemap/0.9",
+		XMLName:  "http://www.sitemaps.org/schemas/sitemap/0.9",
 		Sitemaps: entries,
 	}
 }
